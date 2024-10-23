@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int adj[MAX][MAX]; // Adjacency matrix
+int visited[MAX];  // Visited array for DFS
+int n;             // Number of vertices
+
+// Function to initialize graph
+void initGraph() {
+    for (int i = 0; i < MAX; i++) {
+        for (int j = 0; j < MAX; j++) {
+            adj[i][j] = 0;
+        }
+        visited[i] = 0;
+    }
+}
+
+// Function to add an edge to the graph
+void addEdge(int u, int v) {
+    adj[u][v] = 1;
+    adj[v][u] = 1; // Since it's an undirected graph
+}
+
+// Function to display the adjacency matrix
+void displayMatrix() {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d ", adj[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Function to perform DFS
+void DFS(int v) {
+    printf("%d ", v);
+    visited[v] = 1;
+    for (int i = 0; i < n; i++) {
+        if (adj[v][i] == 1 && !visited[i]) {
+            DFS(i);
+        }
+    }
+}
+
+int main() {
+    int u, v, choice, edges;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    initGraph();
+
+    while (1) {
+        printf("\n1. Add edge\n2. Display adjacency matrix\n3. DFS traversal\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the vertices (u v) to add an edge: ");
+                scanf("%d %d", &u, &v);
+                addEdge(u, v);
+                break;
+            case 2:
+                displayMatrix();
+                break;
+            case 3:
+                printf("Enter starting vertex for DFS: ");
+                scanf("%d", &u);
+                DFS(u);
+                printf("\n");
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
